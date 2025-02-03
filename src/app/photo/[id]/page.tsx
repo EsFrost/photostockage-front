@@ -40,16 +40,22 @@ export default function PhotoPage() {
       try {
         // Fetch both photo and category data in parallel
         const [photoResponse, categoryResponse] = await Promise.all([
-          fetch(`http://localhost:3000/photos/photo/${id}`, {
-            headers: {
-              Accept: "application/json",
-            },
-          }),
-          fetch(`http://localhost:3000/photos_categories/photo/${id}`, {
-            headers: {
-              Accept: "application/json",
-            },
-          }),
+          fetch(
+            `https://sigmafi-tech.website/photostockage/photos/photo/${id}`,
+            {
+              headers: {
+                Accept: "application/json",
+              },
+            }
+          ),
+          fetch(
+            `https://sigmafi-tech.website/photostockage/photos_categories/photo/${id}`,
+            {
+              headers: {
+                Accept: "application/json",
+              },
+            }
+          ),
         ]);
 
         if (!photoResponse.ok) {
@@ -61,7 +67,7 @@ export default function PhotoPage() {
 
         const fetchUser = async () => {
           const userResponse = await fetch(
-            `http://localhost:3000/user/user/${photoData.user_id}`,
+            `https://sigmafi-tech.website/photostockage/user/user/${photoData.user_id}`,
             {
               headers: {
                 Accept: "application/json",
@@ -135,7 +141,7 @@ export default function PhotoPage() {
       if (isAuthenticated) {
         try {
           const response = await fetch(
-            `http://localhost:3000/downloads/download/${photo.id}`,
+            `https://sigmafi-tech.website/photostockage/downloads/download/${photo.id}`,
             {
               method: "POST",
               credentials: "include",

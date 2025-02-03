@@ -22,7 +22,7 @@ const Categories = () => {
 
   const fetchCategories = async () => {
     try {
-      const response = await fetch("http://localhost:3000/categories", {
+      const response = await fetch("https://sigmafi-tech.website/photostockage/categories", {
         credentials: "include",
         headers: { Accept: "application/json" },
       });
@@ -53,7 +53,7 @@ const Categories = () => {
     try {
       if (editingCategory) {
         const response = await fetch(
-          `http://localhost:3000/categories/edit/${editingCategory.id}`,
+          `https://sigmafi-tech.website/photostockage/categories/edit/${editingCategory.id}`,
           {
             method: "PUT",
             credentials: "include",
@@ -73,7 +73,7 @@ const Categories = () => {
         }
       } else {
         // Adding new category
-        const response = await fetch("http://localhost:3000/categories", {
+        const response = await fetch(https://sigmafi-tech.website/photostockage/categories", {
           method: "POST",
           credentials: "include",
           headers: {
@@ -116,7 +116,7 @@ const Categories = () => {
 
     try {
       const response = await fetch(
-        `http://localhost:3000/categories/delete/${id}`,
+        `https://sigmafi-tech.website/photostockage/categories/delete/${id}`,
         {
           method: "DELETE",
           credentials: "include",

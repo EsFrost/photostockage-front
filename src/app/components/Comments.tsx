@@ -43,10 +43,13 @@ export const Comments = ({ photo_id }: { photo_id: string }) => {
 
     try {
       const [commentsResponse, usersResponse] = await Promise.all([
-        fetch(`http://localhost:3000/comments/photo/${photo_id}`, {
-          headers: { Accept: "application/json" },
-        }),
-        fetch(`http://localhost:3000/user/users`, {
+        fetch(
+          `https://sigmafi-tech.website/photostockage/comments/photo/${photo_id}`,
+          {
+            headers: { Accept: "application/json" },
+          }
+        ),
+        fetch(`https://sigmafi-tech.website/photostockage/user/users`, {
           headers: { Accept: "application/json" },
         }),
       ]);
@@ -103,7 +106,7 @@ export const Comments = ({ photo_id }: { photo_id: string }) => {
   const handleCommentSubmit = async (content: string) => {
     try {
       const response = await fetch(
-        `http://localhost:3000/comments/add/${photo_id}`,
+        `https://sigmafi-tech.website/photostockage/comments/add/${photo_id}`,
         {
           method: "POST",
           headers: {

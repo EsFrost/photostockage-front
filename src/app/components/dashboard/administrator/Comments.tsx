@@ -36,10 +36,13 @@ const AdminComments = () => {
 
   const fetchComments = async () => {
     try {
-      const commentsResponse = await fetch("http://localhost:3000/comments", {
-        credentials: "include",
-        headers: { Accept: "application/json" },
-      });
+      const commentsResponse = await fetch(
+        "https://sigmafi-tech.website/photostockage/comments",
+        {
+          credentials: "include",
+          headers: { Accept: "application/json" },
+        }
+      );
 
       if (!commentsResponse.ok) {
         throw new Error("Failed to fetch comments");
@@ -50,12 +53,18 @@ const AdminComments = () => {
       const enrichedComments = await Promise.all(
         commentsData.map(async (comment: CommentWithDetails) => {
           const [photoResponse, userResponse] = await Promise.all([
-            fetch(`http://localhost:3000/photos/photo/${comment.id_photo}`, {
-              headers: { Accept: "application/json" },
-            }),
-            fetch(`http://localhost:3000/user/user/${comment.id_user}`, {
-              headers: { Accept: "application/json" },
-            }),
+            fetch(
+              `https://sigmafi-tech.website/photostockage/photos/photo/${comment.id_photo}`,
+              {
+                headers: { Accept: "application/json" },
+              }
+            ),
+            fetch(
+              `https://sigmafi-tech.website/photostockage/user/user/${comment.id_user}`,
+              {
+                headers: { Accept: "application/json" },
+              }
+            ),
           ]);
 
           const photoData = await photoResponse.json();
@@ -91,7 +100,7 @@ const AdminComments = () => {
     setDeletingId(commentId);
     try {
       const response = await fetch(
-        `http://localhost:3000/comments/delete/${commentId}`,
+        `https://sigmafi-tech.website/photostockage/comments/delete/${commentId}`,
         {
           method: "DELETE",
           credentials: "include",

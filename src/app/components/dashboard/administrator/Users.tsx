@@ -39,10 +39,13 @@ const AdminUsers = () => {
 
   const fetchUsers = async () => {
     try {
-      const response = await fetch("http://localhost:3000/user/users", {
-        credentials: "include",
-        headers: { Accept: "application/json" },
-      });
+      const response = await fetch(
+        "https://sigmafi-tech.website/photostockage/user/users",
+        {
+          credentials: "include",
+          headers: { Accept: "application/json" },
+        }
+      );
 
       if (!response.ok) {
         throw new Error("Failed to fetch users");
@@ -81,7 +84,7 @@ const AdminUsers = () => {
     setDeletingEmail(email);
     try {
       const response = await fetch(
-        `http://localhost:3000/user/delete/${email}`,
+        `https://sigmafi-tech.website/photostockage/user/delete/${email}`,
         {
           method: "DELETE",
           credentials: "include",

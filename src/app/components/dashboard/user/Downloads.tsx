@@ -25,7 +25,7 @@ export const Downloads = () => {
 
         // First fetch the downloads list
         const downloadsResponse = await fetch(
-          `http://localhost:3000/downloads/user/${userId}`,
+          `https://sigmafi-tech.website/photostockage/downloads/user/${userId}`,
           {
             headers: {
               Accept: "application/json",
@@ -42,12 +42,15 @@ export const Downloads = () => {
 
         // Then fetch each photo's details
         const photoPromises = downloads.map((download: Download) =>
-          fetch(`http://localhost:3000/photos/photo/${download.id_photo}`, {
-            headers: {
-              Accept: "application/json",
-            },
-            credentials: "include",
-          }).then((res) => res.json())
+          fetch(
+            `https://sigmafi-tech.website/photostockage/photos/photo/${download.id_photo}`,
+            {
+              headers: {
+                Accept: "application/json",
+              },
+              credentials: "include",
+            }
+          ).then((res) => res.json())
         );
 
         const photos = await Promise.all(photoPromises);

@@ -91,12 +91,15 @@ export default function LoginPage() {
     setIsLoading(true);
 
     try {
-      const response = await fetch("http://localhost:3000/user/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        credentials: "include",
-        body: JSON.stringify(sanitizeData(formData)),
-      });
+      const response = await fetch(
+        "https://sigmafi-tech.website/photostockage/user/login",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          credentials: "include",
+          body: JSON.stringify(sanitizeData(formData)),
+        }
+      );
 
       const loginData = await response.json();
       const token = loginData.token;
@@ -105,7 +108,7 @@ export default function LoginPage() {
 
       // Fetch user data
       const userResponse = await fetch(
-        `http://localhost:3000/user/user/${payload.id}`,
+        `https://sigmafi-tech.website/photostockage/user/user/${payload.id}`,
         {
           credentials: "include",
           headers: { Accept: "application/json" },

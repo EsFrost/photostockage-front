@@ -28,10 +28,13 @@ const AdminPhotos = () => {
 
   const fetchPhotos = async () => {
     try {
-      const response = await fetch("http://localhost:3000/photos/admin", {
-        credentials: "include",
-        headers: { Accept: "application/json" },
-      });
+      const response = await fetch(
+        "https://sigmafi-tech.website/photostockage/photos/admin",
+        {
+          credentials: "include",
+          headers: { Accept: "application/json" },
+        }
+      );
 
       if (!response.ok) {
         throw new Error("Failed to fetch photos");
@@ -60,7 +63,7 @@ const AdminPhotos = () => {
     setDeletingId(photoId);
     try {
       const response = await fetch(
-        `http://localhost:3000/photos/delete/${photoId}`,
+        `https://sigmafi-tech.website/photostockage/photos/delete/${photoId}`,
         {
           method: "DELETE",
           credentials: "include",

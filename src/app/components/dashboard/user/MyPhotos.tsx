@@ -67,7 +67,7 @@ export const MyPhotos = () => {
       }
 
       const response = await fetch(
-        `http://localhost:3000/photos/photos/user/${userId}`,
+        `https://sigmafi-tech.website/photostockage/photos/photos/user/${userId}`,
         {
           headers: {
             Accept: "application/json",
@@ -95,10 +95,13 @@ export const MyPhotos = () => {
   const fetchComments = async (photoId: string) => {
     try {
       const [commentsResponse, usersResponse] = await Promise.all([
-        fetch(`http://localhost:3000/comments/photo/${photoId}`, {
-          headers: { Accept: "application/json" },
-        }),
-        fetch(`http://localhost:3000/user/users`, {
+        fetch(
+          `https://sigmafi-tech.website/photostockage/comments/photo/${photoId}`,
+          {
+            headers: { Accept: "application/json" },
+          }
+        ),
+        fetch(`https://sigmafi-tech.website/photostockage/user/users`, {
           headers: { Accept: "application/json" },
         }),
       ]);
@@ -154,12 +157,15 @@ export const MyPhotos = () => {
     // Fetch categories and current photo's category
     try {
       const [categoriesResponse, currentCategoryResponse] = await Promise.all([
-        fetch("http://localhost:3000/categories", {
+        fetch("https://sigmafi-tech.website/photostockage/categories", {
           headers: { Accept: "application/json" },
         }),
-        fetch(`http://localhost:3000/photos_categories/photo/${photo.id}`, {
-          headers: { Accept: "application/json" },
-        }),
+        fetch(
+          `https://sigmafi-tech.website/photostockage/photos_categories/photo/${photo.id}`,
+          {
+            headers: { Accept: "application/json" },
+          }
+        ),
       ]);
 
       const categoriesData = await categoriesResponse.json();
@@ -195,7 +201,7 @@ export const MyPhotos = () => {
         .trim();
 
       const response = await fetch(
-        `http://localhost:3000/photos/edit/${editingPhoto.id}`,
+        `https://sigmafi-tech.website/photostockage/photos/edit/${editingPhoto.id}`,
         {
           method: "PUT",
           headers: {
@@ -218,17 +224,20 @@ export const MyPhotos = () => {
       // Update category if changed
       if (selectedCategory) {
         // First, we'll add the new category relationship
-        await fetch(`http://localhost:3000/photos_categories/add`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          credentials: "include",
-          body: JSON.stringify({
-            photo_id: editingPhoto.id,
-            category_id: selectedCategory,
-          }),
-        });
+        await fetch(
+          `https://sigmafi-tech.website/photostockage/photos_categories/add`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            credentials: "include",
+            body: JSON.stringify({
+              photo_id: editingPhoto.id,
+              category_id: selectedCategory,
+            }),
+          }
+        );
       }
 
       // Refresh the photos list
@@ -255,7 +264,7 @@ export const MyPhotos = () => {
     try {
       setIsDeleting(true);
       const response = await fetch(
-        `http://localhost:3000/photos/delete/${editingPhoto.id}`,
+        `https://sigmafi-tech.website/photostockage/photos/delete/${editingPhoto.id}`,
         {
           method: "DELETE",
           credentials: "include",

@@ -13,10 +13,10 @@ export const Polaroid = () => {
     const fetchData = async () => {
       try {
         const [imagesResponse, categoriesResponse] = await Promise.all([
-          fetch("http://localhost:3000/photos/photos", {
+          fetch("https://sigmafi-tech.website/photostockage/photos/photos", {
             headers: { Accept: "application/json" },
           }),
-          fetch("http://localhost:3000/categories", {
+          fetch("https://sigmafi-tech.website/photostockage/categories", {
             headers: { Accept: "application/json" },
           }),
         ]);
@@ -42,9 +42,9 @@ export const Polaroid = () => {
 
   const handleCategoryChange = async (categoryId: string) => {
     try {
-      let url = "http://localhost:3000/photos/photos";
+      let url = "https://sigmafi-tech.website/photostockage/photos/photos";
       if (categoryId !== "all") {
-        url = `http://localhost:3000/photos_categories/category/${categoryId}`;
+        url = `https://sigmafi-tech.website/photostockage/photos_categories/category/${categoryId}`;
       }
 
       const response = await fetch(url, {

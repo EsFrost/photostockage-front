@@ -71,7 +71,7 @@ export const MyComments = () => {
       }
 
       const commentsResponse = await fetch(
-        `http://localhost:3000/comments/user/${userId}`,
+        `https://sigmafi-tech.website/photostockage/comments/user/${userId}`,
         {
           headers: { Accept: "application/json" },
           credentials: "include",
@@ -88,7 +88,7 @@ export const MyComments = () => {
       const commentsWithPhotos = await Promise.all(
         commentsData.map(async (comment: CommentWithUser) => {
           const photoResponse = await fetch(
-            `http://localhost:3000/photos/photo/${comment.photo_id}`,
+            `https://sigmafi-tech.website/photostockage/photos/photo/${comment.photo_id}`,
             {
               headers: {
                 Accept: "application/json",
@@ -152,7 +152,7 @@ export const MyComments = () => {
         .trim();
 
       const response = await fetch(
-        `http://localhost:3000/comments/edit/${editingComment.comment_id}`,
+        `https://sigmafi-tech.website/photostockage/comments/edit/${editingComment.comment_id}`,
         {
           method: "PUT",
           headers: {
@@ -192,7 +192,7 @@ export const MyComments = () => {
     try {
       setIsDeleting(true);
       const response = await fetch(
-        `http://localhost:3000/comments/delete/${editingComment.comment_id}`,
+        `https://sigmafi-tech.website/photostockage/comments/delete/${editingComment.comment_id}`,
         {
           method: "DELETE",
           credentials: "include",
@@ -318,7 +318,7 @@ export const MyComments = () => {
                 <Image
                   src={
                     comment.photo?.path ||
-                    `http://localhost:3000/photos/photo/${comment.photo_id}`
+                    `https://sigmafi-tech.website/photostockage/photos/photo/${comment.photo_id}`
                   }
                   alt={comment.photo?.name || comment.photo_name}
                   fill

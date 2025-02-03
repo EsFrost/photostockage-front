@@ -67,9 +67,12 @@ const AddPhotoForm = () => {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await fetch("http://localhost:3000/categories", {
-          headers: { Accept: "application/json" },
-        });
+        const response = await fetch(
+          "https://sigmafi-tech.website/photostockage/categories",
+          {
+            headers: { Accept: "application/json" },
+          }
+        );
 
         if (!response.ok) {
           throw new Error("Failed to fetch categories");
@@ -169,7 +172,7 @@ const AddPhotoForm = () => {
       };
 
       const createResponse = await fetch(
-        "http://localhost:3000/photos/add_photo",
+        "https://sigmafi-tech.website/photostockage/photos/add_photo",
         {
           method: "POST",
           headers: {
@@ -190,17 +193,20 @@ const AddPhotoForm = () => {
       setUploadedPhotoId(createResult.id);
 
       if (selectedCategory) {
-        await fetch(`http://localhost:3000/photos_categories/add`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          credentials: "include",
-          body: JSON.stringify({
-            photo_id: uploadedPhotoId,
-            category_id: selectedCategory,
-          }),
-        });
+        await fetch(
+          `https://sigmafi-tech.website/photostockage/photos_categories/add`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            credentials: "include",
+            body: JSON.stringify({
+              photo_id: uploadedPhotoId,
+              category_id: selectedCategory,
+            }),
+          }
+        );
       }
 
       setUploadSuccess(true);

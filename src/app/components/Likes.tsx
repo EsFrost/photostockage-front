@@ -33,7 +33,7 @@ export const Likes = ({ photo_id }: { photo_id: string }) => {
 
         // Fetch likes count (this doesn't require auth)
         const likesResponse = await fetch(
-          `http://localhost:3000/likes/likes/${photo_id}`,
+          `https://sigmafi-tech.website/photostockage/likes/likes/${photo_id}`,
           {
             headers: {
               Accept: "application/json",
@@ -51,7 +51,7 @@ export const Likes = ({ photo_id }: { photo_id: string }) => {
         // Only check if user has liked when authenticated
         if (isAuthenticated) {
           const hasLikedResponse = await fetch(
-            `http://localhost:3000/likes/check/${photo_id}`,
+            `https://sigmafi-tech.website/photostockage/likes/check/${photo_id}`,
             {
               headers: {
                 Accept: "application/json",
@@ -114,7 +114,7 @@ export const Likes = ({ photo_id }: { photo_id: string }) => {
     if (liked.hasLiked) {
       try {
         const response = await fetch(
-          `http://localhost:3000/likes/like/${photo_id}`,
+          `https://sigmafi-tech.website/photostockage/likes/like/${photo_id}`,
           {
             method: "DELETE",
             headers: {
@@ -129,7 +129,7 @@ export const Likes = ({ photo_id }: { photo_id: string }) => {
 
         // Refetch likes after unliking
         const likesResponse = await fetch(
-          `http://localhost:3000/likes/likes/${photo_id}`,
+          `https://sigmafi-tech.website/photostockage/likes/likes/${photo_id}`,
           {
             headers: {
               Accept: "application/json",
@@ -152,7 +152,7 @@ export const Likes = ({ photo_id }: { photo_id: string }) => {
     } else {
       try {
         const response = await fetch(
-          `http://localhost:3000/likes/like/${photo_id}`,
+          `https://sigmafi-tech.website/photostockage/likes/like/${photo_id}`,
           {
             method: "POST",
             headers: {
@@ -167,7 +167,7 @@ export const Likes = ({ photo_id }: { photo_id: string }) => {
 
         // Refetch likes after liking
         const likesResponse = await fetch(
-          `http://localhost:3000/likes/likes/${photo_id}`,
+          `https://sigmafi-tech.website/photostockage/likes/likes/${photo_id}`,
           {
             headers: {
               Accept: "application/json",

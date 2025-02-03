@@ -51,7 +51,7 @@ const AdminMyAccount = () => {
         }
 
         const response = await fetch(
-          `http://localhost:3000/user/user/${userId}`,
+          `https://sigmafi-tech.website/photostockage/user/user/${userId}`,
           {
             credentials: "include",
             headers: { Accept: "application/json" },
@@ -180,7 +180,7 @@ const AdminMyAccount = () => {
       }
 
       const response = await fetch(
-        `http://localhost:3000/user/changeuser/${user.id}`,
+        `https://sigmafi-tech.website/photostockage/user/changeuser/${user.id}`,
         {
           method: "PUT",
           credentials: "include",
@@ -210,18 +210,21 @@ const AdminMyAccount = () => {
     if (!validatePasswordForm()) return;
     setIsPasswordLoading(true);
     try {
-      const response = await fetch("http://localhost:3000/user/changepass", {
-        method: "PUT",
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email: user.email,
-          currentPassword: passwordData.oldPassword,
-          newPassword: passwordData.newPassword,
-        }),
-      });
+      const response = await fetch(
+        "https://sigmafi-tech.website/photostockage/user/changepass",
+        {
+          method: "PUT",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            email: user.email,
+            currentPassword: passwordData.oldPassword,
+            newPassword: passwordData.newPassword,
+          }),
+        }
+      );
 
       if (!response.ok) {
         const errorData = await response.json();
@@ -255,7 +258,7 @@ const AdminMyAccount = () => {
     setIsDeleting(true);
     try {
       const response = await fetch(
-        `http://localhost:3000/user/delete/${user.email}`,
+        `https://sigmafi-tech.website/photostockage/user/delete/${user.email}`,
         {
           method: "DELETE",
           credentials: "include",

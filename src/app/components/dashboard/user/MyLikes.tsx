@@ -24,7 +24,7 @@ const MyLikes = () => {
 
         // First fetch the likes list
         const likesResponse = await fetch(
-          `http://localhost:3000/likes/user/${userId}`,
+          `https://sigmafi-tech.website/photostockage/likes/user/${userId}`,
           {
             headers: {
               Accept: "application/json",
@@ -41,12 +41,15 @@ const MyLikes = () => {
 
         // Then fetch each photo's details
         const photoPromises = likes.map((like: Like) =>
-          fetch(`http://localhost:3000/photos/photo/${like.id_photo}`, {
-            headers: {
-              Accept: "application/json",
-            },
-            credentials: "include",
-          }).then((res) => res.json())
+          fetch(
+            `https://sigmafi-tech.website/photostockage/photos/photo/${like.id_photo}`,
+            {
+              headers: {
+                Accept: "application/json",
+              },
+              credentials: "include",
+            }
+          ).then((res) => res.json())
         );
 
         const photos = await Promise.all(photoPromises);

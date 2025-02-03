@@ -202,13 +202,16 @@ export default function RegisterPage() {
         user_icon: imagePath,
       };
 
-      const response = await fetch(`http://localhost:3000/user/register`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(requestBody),
-      });
+      const response = await fetch(
+        `https://sigmafi-tech.website/photostockage/user/register`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(requestBody),
+        }
+      );
 
       const responseData = await response.json();
       if (!response.ok) {
