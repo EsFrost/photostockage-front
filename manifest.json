@@ -1,0 +1,9 @@
+{
+  "name": "photoStockage",
+  "short_name": "photoStockage",
+  "description": "Share and download photos",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#6366F1"
+}
