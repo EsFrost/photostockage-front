@@ -22,10 +22,13 @@ const Categories = () => {
 
   const fetchCategories = async () => {
     try {
-      const response = await fetch("https://sigmafi-tech.website/photostockage/categories", {
-        credentials: "include",
-        headers: { Accept: "application/json" },
-      });
+      const response = await fetch(
+        "https://sigmafi-tech.website/photostockage/categories",
+        {
+          credentials: "include",
+          headers: { Accept: "application/json" },
+        }
+      );
 
       if (!response.ok) throw new Error("Failed to fetch categories");
       const data = await response.json();
@@ -73,14 +76,17 @@ const Categories = () => {
         }
       } else {
         // Adding new category
-        const response = await fetch(https://sigmafi-tech.website/photostockage/categories", {
-          method: "POST",
-          credentials: "include",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(formData),
-        });
+        const response = await fetch(
+          "https://sigmafi-tech.website/photostockage/categories",
+          {
+            method: "POST",
+            credentials: "include",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(formData),
+          }
+        );
 
         if (!response.ok) {
           const errorData = await response.json();
