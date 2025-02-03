@@ -10,6 +10,8 @@ export const Polaroid = () => {
   const [categories, setCategories] = useState<Category[]>([]);
 
   useEffect(() => {
+    let isMounted = true; // Add this flag
+
     const fetchData = async () => {
       try {
         const [imagesResponse, categoriesResponse] = await Promise.all([
@@ -21,6 +23,8 @@ export const Polaroid = () => {
           }),
         ]);
 
+        if (!isMounted) return; // Add this check
+
         if (!imagesResponse.ok || !categoriesResponse.ok) {
           throw new Error("Failed to fetch data");
         }
@@ -30,14 +34,22 @@ export const Polaroid = () => {
           categoriesResponse.json(),
         ]);
 
+        if (!isMounted) return; // Add this check
+
         setImages(imagesData);
         setCategories(categoriesData);
       } catch (error) {
+        if (!isMounted) return; // Add this check
         console.error("Error fetching data:", error);
       }
     };
 
     fetchData();
+
+    // Add cleanup function
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   const handleCategoryChange = async (categoryId: string) => {
