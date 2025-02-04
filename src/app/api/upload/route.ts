@@ -31,7 +31,8 @@ export async function POST(req: Request) {
     const uploadDir = join(process.cwd(), "public/images/users");
     const path = join(uploadDir, fileName);
 
-    await writeFile(path, buffer);
+    // await writeFile(path, buffer); // Throws type error, it should work with node js normally though as it was tested
+    await writeFile(path, new Uint8Array(buffer));
 
     return NextResponse.json({
       success: true,
