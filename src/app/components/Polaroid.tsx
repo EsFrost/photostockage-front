@@ -8,11 +8,13 @@ export const Polaroid = () => {
   const [images, setImages] = useState<Photo[]>();
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
   const [categories, setCategories] = useState<Category[]>([]);
+  const [isLoading, setIsLoading] = useState(true); // To fix race conditions messing with the front page
 
   useEffect(() => {
-    let isMounted = true; // Add this flag
+    let isMounted = true; // Flag
 
     const fetchData = async () => {
+      setIsLoading(true); // Set loading state
       try {
         const [imagesResponse, categoriesResponse] = await Promise.all([
           fetch("https://sigmafi-tech.website/photostockage/photos/photos", {
@@ -23,7 +25,7 @@ export const Polaroid = () => {
           }),
         ]);
 
-        if (!isMounted) return; // Add this check
+        if (!isMounted) return; // Check
 
         if (!imagesResponse.ok || !categoriesResponse.ok) {
           throw new Error("Failed to fetch data");
@@ -34,19 +36,23 @@ export const Polaroid = () => {
           categoriesResponse.json(),
         ]);
 
-        if (!isMounted) return; // Add this check
+        if (!isMounted) return; // Check
 
         setImages(imagesData);
         setCategories(categoriesData);
       } catch (error) {
-        if (!isMounted) return; // Add this check
+        if (!isMounted) return; // Check
         console.error("Error fetching data:", error);
+      } finally {
+        if (isMounted) {
+          setIsLoading(false); // isLoading is set to false only if the component is still mounted
+        }
       }
     };
 
     fetchData();
 
-    // Add cleanup function
+    // Cleanup function
     return () => {
       isMounted = false;
     };
@@ -74,6 +80,11 @@ export const Polaroid = () => {
       console.error("Error filtering photos:", error);
     }
   };
+
+  // Loading state handling in render
+  if (isLoading) {
+    return <div className="text-center py-8">Loading...</div>;
+  }
 
   return (
     <div>
