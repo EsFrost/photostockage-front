@@ -4,6 +4,9 @@ import Image from "next/image";
 import Link from "next/link";
 import { Photo, Category } from "@/app/utils/interfaces";
 
+const CACHE_KEY = "polaroidData";
+const CACHE_DURATION = 5 * 60 * 1000; // 5 minutes in milliseconds
+
 export const Polaroid = () => {
   const [images, setImages] = useState<Photo[]>();
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
@@ -16,6 +19,18 @@ export const Polaroid = () => {
     const fetchData = async () => {
       setIsLoading(true); // Set loading state
       try {
+        const cachedData = localStorage.getItem(CACHE_KEY);
+        if (cachedData) {
+          const { data, timestamp, categoryData } = JSON.parse(cachedData);
+          // Check if cache is still valid (within 5 minutes)
+          if (Date.now() - timestamp < CACHE_DURATION) {
+            setImages(data);
+            setCategories(categoryData);
+            setIsLoading(false);
+            return;
+          }
+        }
+
         const [imagesResponse, categoriesResponse] = await Promise.all([
           fetch("https://sigmafi-tech.website/photostockage/photos/photos", {
             headers: { Accept: "application/json" },
@@ -59,6 +74,7 @@ export const Polaroid = () => {
   }, []);
 
   const handleCategoryChange = async (categoryId: string) => {
+    setIsLoading(true);
     try {
       let url = "https://sigmafi-tech.website/photostockage/photos/photos";
       if (categoryId !== "all") {
@@ -78,12 +94,18 @@ export const Polaroid = () => {
       setSelectedCategory(categoryId);
     } catch (error) {
       console.error("Error filtering photos:", error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
   // Loading state handling in render
   if (isLoading) {
-    return <div className="text-center py-8">Loading...</div>;
+    return (
+      <div className="flex justify-center items-center py-8">
+        <div className="animate-pulse text-gray-600">Loading photos...</div>
+      </div>
+    );
   }
 
   return (
