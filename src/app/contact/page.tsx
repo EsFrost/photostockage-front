@@ -66,7 +66,7 @@ export default function ContactUs() {
           <p className="text-gray-600 leading-relaxed text-base">
             You can also contact us through email.
           </p>
-          <p className="text-gray-600 leading-relaxed text-base">
+          <p className="text-gray-600 leading-relaxed text-base text-wrap">
             Email: photostockage@photostockage.com
           </p>
           <p className="text-gray-600 leading-relaxed text-base">
