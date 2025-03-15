@@ -91,45 +91,83 @@ export default function LoginPage() {
     setIsLoading(true);
 
     try {
-      const response = await fetch(
-        "https://sigmafi-tech.website/photostockage/user/login",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          credentials: "include",
-          body: JSON.stringify(sanitizeData(formData)),
-        }
-      );
+      const response = await fetch("http://localhost:3000/user/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify(sanitizeData(formData)),
+      });
 
       const loginData = await response.json();
+      
+      // Check if the response contains an error message
+      if (!response.ok) {
+        throw new Error(loginData.message || "Login failed. Please check your credentials.");
+      }
+      
+      // Check if token exists in the response
+      if (!loginData.token) {
+        throw new Error("Authentication failed. No token received.");
+      }
+
       const token = loginData.token;
       const tokenParts = token.split(".");
+      
+      // Verify token format
+      if (tokenParts.length !== 3) {
+        throw new Error("Invalid token format received");
+      }
+
       const payload = JSON.parse(atob(tokenParts[1]));
 
-      // Fetch user data
-      const userResponse = await fetch(
-        `https://sigmafi-tech.website/photostockage/user/user/${payload.id}`,
-        {
-          credentials: "include",
-          headers: { Accept: "application/json" },
+      // Verify payload contains required data
+      if (!payload || !payload.id) {
+        throw new Error("Invalid token payload");
+      }
+
+      try {
+        // Fetch user data
+        const userResponse = await fetch(
+          `http://localhost:3000/user/user/${payload.id}`,
+          {
+            credentials: "include",
+            headers: { Accept: "application/json" },
+          }
+        );
+
+        if (!userResponse.ok) {
+          throw new Error("Failed to fetch user data");
         }
-      );
 
-      const userData = await userResponse.json();
-      const user = userData[0];
+        const userData = await userResponse.json();
+        
+        if (!userData || !userData[0]) {
+          throw new Error("No user data received");
+        }
 
-      const expiresIn = 30 * 24 * 60 * 60 * 1000;
-      localStorage.setItem("isLoggedIn", "true");
-      localStorage.setItem("tokenExpires", String(Date.now() + expiresIn));
-      localStorage.setItem("userId", payload.id);
-      localStorage.setItem("access_level", payload.access_level);
-      localStorage.setItem("user_icon", user.user_icon || "");
+        const user = userData[0];
 
-      window.dispatchEvent(new Event("storage"));
-      router.push("/");
+        const expiresIn = 30 * 24 * 60 * 60 * 1000;
+        localStorage.setItem("isLoggedIn", "true");
+        localStorage.setItem("tokenExpires", String(Date.now() + expiresIn));
+        localStorage.setItem("userId", payload.id);
+        localStorage.setItem("access_level", payload.access_level || "");
+        localStorage.setItem("user_icon", user.user_icon || "");
+
+        window.dispatchEvent(new Event("storage"));
+        router.push("/");
+      } catch (userError) {
+        console.error("User data fetch error:", userError);
+        // Even if user fetch fails, we're still logged in with the token
+        localStorage.setItem("isLoggedIn", "true");
+        localStorage.setItem("tokenExpires", String(Date.now() + (30 * 24 * 60 * 60 * 1000)));
+        localStorage.setItem("userId", payload.id);
+        window.dispatchEvent(new Event("storage"));
+        router.push("/");
+      }
     } catch (error) {
       console.error("Login error:", error);
-      setLoginError(error instanceof Error ? error.message : "Login failed");
+      setLoginError(error instanceof Error ? error.message : "Login failed. Please try again.");
     } finally {
       setIsLoading(false);
     }
